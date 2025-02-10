@@ -31,7 +31,7 @@ export const ChatInterface = () => {
   }, [messages]);
 
   return (
-    <Card className="flex flex-col h-[600px] w-full max-w-4xl mx-auto">
+    <Card className="flex flex-col h-[400px] w-full backdrop-blur-sm bg-background/95 border-2">
       <ScrollArea className="flex-grow p-4" ref={scrollRef}>
         <div className="space-y-4">
           {messages.map((message, index) => (
