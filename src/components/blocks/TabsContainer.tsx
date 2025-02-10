@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 
 interface TabData {
   title: string;
-  content: React.ReactNode;
+  content: string;
 }
 
 const InsightsCard = ({ title, description }: { title: string; description: string }) => (
@@ -56,7 +56,11 @@ export const TabsContainer = () => {
         <TabsContent key={key} value={key} className="mt-6">
           <div className="grid md:grid-cols-2 gap-4">
             {data.map((item, index) => (
-              <InsightsCard key={index} title={item.title} description={item.content} />
+              <InsightsCard 
+                key={index} 
+                title={item.title} 
+                description={item.content} 
+              />
             ))}
           </div>
         </TabsContent>
