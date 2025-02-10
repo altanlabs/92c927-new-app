@@ -11,7 +11,7 @@ interface CircleProps {
   isActive: boolean;
 }
 
-const Circle: React.FC<CircleProps> = ({ title, position, onClick, isActive }) => (
+const Circle: FC<CircleProps> = ({ title, position, onClick, isActive }) => (
   <button
     onClick={onClick}
     className={cn(
