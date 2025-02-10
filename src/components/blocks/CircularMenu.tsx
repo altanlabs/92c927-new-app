@@ -10,67 +10,71 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
+  // Grupo Superior - Desarrollo Personal
   {
     id: 'bienestar',
     title: 'Bienestar',
     radius: 220,
-    angleOffset: 0,
+    angleOffset: 0, // Arriba
     connections: ['deporte', 'crecimiento', 'finanzas']
   },
   {
     id: 'deporte',
     title: 'Deporte',
     radius: 220,
-    angleOffset: 0.8,
+    angleOffset: 0.4, // Arriba-derecha
     connections: ['bienestar', 'crecimiento', 'educacion']
   },
+  {
+    id: 'crecimiento',
+    title: 'Crecimiento Personal',
+    radius: 220,
+    angleOffset: 0.8, // Derecha-arriba
+    connections: ['bienestar', 'deporte', 'recomendaciones']
+  },
+  // Grupo Derecho - Finanzas
   {
     id: 'finanzas',
     title: 'Finanzas',
     radius: 220,
-    angleOffset: 1.6,
+    angleOffset: 2.0, // Derecha
     connections: ['educacion', 'datos', 'bienestar']
   },
   {
     id: 'educacion',
     title: 'Educación Financiera',
     radius: 220,
-    angleOffset: 2.4,
+    angleOffset: 2.4, // Derecha-abajo
     connections: ['finanzas', 'deporte', 'recomendaciones']
   },
-  {
-    id: 'crecimiento',
-    title: 'Crecimiento Personal',
-    radius: 220,
-    angleOffset: 3.2,
-    connections: ['bienestar', 'deporte', 'recomendaciones']
-  },
+  // Grupo Inferior - Comercial
   {
     id: 'datos',
     title: 'Venta de Datos',
     radius: 220,
-    angleOffset: 4.0,
+    angleOffset: 3.6, // Abajo
     connections: ['finanzas', 'suscripciones']
-  },
-  {
-    id: 'recomendaciones',
-    title: 'Recomendaciones',
-    radius: 220,
-    angleOffset: 4.8,
-    connections: ['crecimiento', 'educacion', 'expansion']
   },
   {
     id: 'suscripciones',
     title: 'Suscripciones',
     radius: 220,
-    angleOffset: 5.6,
+    angleOffset: 4.0, // Abajo-izquierda
     connections: ['datos', 'expansion']
+  },
+  // Grupo Izquierdo - Crecimiento
+  {
+    id: 'recomendaciones',
+    title: 'Recomendaciones',
+    radius: 220,
+    angleOffset: 5.2, // Izquierda
+    connections: ['crecimiento', 'educacion', 'expansion']
   },
   {
     id: 'expansion',
     title: 'Expansión',
     radius: 220,
-    angleOffset: 6.4,
+    angleOffset: 5.6, // Izquierda-arriba
     connections: ['recomendaciones', 'suscripciones']
   }
 ];
@@ -85,7 +89,7 @@ export const CircularMenu = () => {
       const newPositions: Record<string, { x: number; y: number }> = {};
       
       menuItems.forEach((item) => {
-        const angle = item.angleOffset * Math.PI / 3.6;
+        const angle = item.angleOffset * Math.PI / 3;
         newPositions[item.id] = {
           x: Math.cos(angle) * item.radius,
           y: Math.sin(angle) * item.radius
@@ -137,14 +141,13 @@ export const CircularMenu = () => {
       </div>
 
       {/* Contenedor del diagrama cabalístico */}
-      <div className="relative w-[800px] h-[800px]">
+      <div className="relative w-[800px] h-[800px] flex items-center justify-center">
         {/* Círculo exterior */}
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.5 }}
-          className="absolute left-1/2 top-1/2 w-[650px] h-[650px] -translate-x-1/2 -translate-y-1/2
-                     rounded-full border border-blue-200/30 backdrop-blur-sm"
+          className="absolute w-[650px] h-[650px] rounded-full border border-blue-200/30 backdrop-blur-sm"
           style={{
             background: 'linear-gradient(180deg, rgba(147,197,253,0.05) 0%, rgba(147,197,253,0.02) 100%)',
             boxShadow: '0 0 40px rgba(147,197,253,0.1) inset'
@@ -156,8 +159,7 @@ export const CircularMenu = () => {
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.2 }}
-          className="absolute left-1/2 top-1/2 w-[670px] h-[670px] -translate-x-1/2 -translate-y-1/2
-                     rounded-full border border-blue-200/20"
+          className="absolute w-[670px] h-[670px] rounded-full border border-blue-200/20"
         />
 
         {/* Conexiones SVG */}
@@ -167,9 +169,9 @@ export const CircularMenu = () => {
 
         {/* Círculo central */}
         <motion.div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 
-                     bg-white/10 rounded-full backdrop-blur-xl border border-blue-200/20 
-                     flex items-center justify-center cursor-pointer z-50"
+          className="absolute w-40 h-40 bg-white/10 rounded-full backdrop-blur-xl 
+                     border border-blue-200/20 flex items-center justify-center 
+                     cursor-pointer z-50"
           whileHover={{ scale: 1.05 }}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -186,14 +188,14 @@ export const CircularMenu = () => {
         {menuItems.map((item) => (
           <motion.div
             key={item.id}
-            className="absolute left-1/2 top-1/2 w-28 h-28 -translate-x-1/2 -translate-y-1/2
-                       rounded-full flex items-center justify-center cursor-pointer z-40"
-            initial={{ scale: 0, x: positions[item.id]?.x ?? 0, y: positions[item.id]?.y ?? 0 }}
-            animate={{
-              scale: 1,
-              x: positions[item.id]?.x ?? 0,
-              y: positions[item.id]?.y ?? 0,
+            className="absolute w-28 h-28 rounded-full flex items-center justify-center cursor-pointer z-40"
+            style={{
+              left: `calc(50% + ${positions[item.id]?.x ?? 0}px)`,
+              top: `calc(50% + ${positions[item.id]?.y ?? 0}px)`,
+              transform: 'translate(-50%, -50%)'
             }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
             whileHover={{ scale: 1.1 }}
             onClick={() => setActiveItem(item.id)}
           >
