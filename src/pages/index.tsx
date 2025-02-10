@@ -1,5 +1,5 @@
-import { MysticInterface } from "@/components/blocks/MysticInterface";
-import { ChatOverlay } from "@/components/blocks/ChatOverlay";
+import { MysticInterface } from "../components/blocks/MysticInterface";
+import { ChatOverlay } from "../components/blocks/ChatOverlay";
 
 export default function Home() {
   return (
