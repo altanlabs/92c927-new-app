@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Card } from "../ui/card";
 import { cn } from "../../lib/utils";
 
@@ -28,7 +28,7 @@ const Circle: React.FC<CircleProps> = ({ title, position, onClick, isActive }) =
 );
 
 export const MysticInterface = () => {
-  const [activeCircle, setActiveCircle] = React.useState<string | null>(null);
+  const [activeCircle, setActiveCircle] = useState<string | null>(null);
 
   const circles = [
     { title: "Bienestar", position: "top-0 left-1/2 -translate-x-1/2 -translate-y-32" },
