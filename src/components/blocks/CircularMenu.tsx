@@ -115,14 +115,13 @@ export const CircularMenu = () => {
           <motion.path
             key={`${item.id}-${targetId}`}
             initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 0.15 }}
+            animate={{ pathLength: 1, opacity: 0.2 }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
             d={`M ${sourcePos.x} ${sourcePos.y} 
                 Q ${midX + curveOffset} ${midY + curveOffset} ${targetPos.x} ${targetPos.y}`}
-            stroke="currentColor"
-            strokeWidth="1"
+            stroke="rgba(255, 255, 255, 0.3)"
+            strokeWidth="0.5"
             fill="none"
-            className="text-primary"
           />
         );
       })
@@ -130,11 +129,11 @@ export const CircularMenu = () => {
   };
 
   return (
-    <div className="relative w-full h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-black overflow-hidden" ref={containerRef}>
+    <div className="relative w-full h-screen flex items-center justify-center bg-gradient-to-b from-slate-100 to-slate-200 overflow-hidden" ref={containerRef}>
       {/* Efectos de fondo */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--primary),0.1),transparent_70%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.8),transparent_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(147,197,253,0.15),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1),transparent_70%)]" />
       </div>
 
       {/* Contenedor del diagrama cabalístico */}
@@ -145,10 +144,10 @@ export const CircularMenu = () => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.5 }}
           className="absolute left-1/2 top-1/2 w-[650px] h-[650px] -translate-x-1/2 -translate-y-1/2
-                     rounded-full border border-primary/20 backdrop-blur-sm"
+                     rounded-full border border-blue-200/30 backdrop-blur-sm"
           style={{
-            background: 'linear-gradient(180deg, rgba(var(--primary), 0.03) 0%, rgba(var(--primary), 0.01) 100%)',
-            boxShadow: '0 0 40px rgba(var(--primary), 0.1) inset'
+            background: 'linear-gradient(180deg, rgba(147,197,253,0.05) 0%, rgba(147,197,253,0.02) 100%)',
+            boxShadow: '0 0 40px rgba(147,197,253,0.1) inset'
           }}
         />
 
@@ -158,28 +157,28 @@ export const CircularMenu = () => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.2 }}
           className="absolute left-1/2 top-1/2 w-[670px] h-[670px] -translate-x-1/2 -translate-y-1/2
-                     rounded-full border border-primary/10"
+                     rounded-full border border-blue-200/20"
         />
 
         {/* Conexiones SVG */}
         <svg className="absolute inset-0 w-full h-full" style={{ transform: 'translate(50%, 50%)' }}>
-          <g className="opacity-20">{renderConnections()}</g>
+          <g className="opacity-30">{renderConnections()}</g>
         </svg>
 
         {/* Círculo central */}
         <motion.div
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 
-                     bg-black/40 rounded-full backdrop-blur-xl border border-white/10 
+                     bg-white/10 rounded-full backdrop-blur-xl border border-blue-200/20 
                      flex items-center justify-center cursor-pointer z-50"
           whileHover={{ scale: 1.05 }}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
         >
           <div className="text-center">
-            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
+            <h2 className="text-2xl font-bold text-slate-700">
               SnipIT
             </h2>
-            <p className="text-sm text-white/60">AI Assistant</p>
+            <p className="text-sm text-slate-500">AI Assistant</p>
           </div>
         </motion.div>
 
@@ -199,16 +198,16 @@ export const CircularMenu = () => {
             onClick={() => setActiveItem(item.id)}
           >
             <div className="w-full h-full relative group">
-              <div className="absolute inset-0 rounded-full bg-black/30 backdrop-blur-sm 
-                            border border-white/10 group-hover:border-primary/50 
+              <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-sm 
+                            border border-blue-200/20 group-hover:border-blue-300/50 
                             transition-colors duration-300" />
               
               <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-20
-                            bg-gradient-to-r from-primary to-primary-foreground
+                            bg-gradient-to-r from-blue-200 to-blue-300
                             transition-opacity duration-300" />
               
               <div className="relative h-full flex items-center justify-center p-2">
-                <span className="text-sm font-medium text-center text-white/90 group-hover:text-white
+                <span className="text-sm font-medium text-center text-slate-600 group-hover:text-slate-800
                                transition-colors duration-300">
                   {item.title}
                 </span>
@@ -225,18 +224,18 @@ export const CircularMenu = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-                       w-96 h-96 bg-black/40 backdrop-blur-xl rounded-2xl border border-white/10 p-6"
+                       w-96 h-96 bg-white/20 backdrop-blur-xl rounded-2xl border border-blue-200/20 p-6"
             >
               <button
                 onClick={() => setActiveItem(null)}
-                className="absolute top-4 right-4 text-white/60 hover:text-white"
+                className="absolute top-4 right-4 text-slate-500 hover:text-slate-700"
               >
                 ✕
               </button>
-              <h3 className="text-xl font-bold mb-4">
+              <h3 className="text-xl font-bold text-slate-700 mb-4">
                 {menuItems.find(item => item.id === activeItem)?.title}
               </h3>
-              <div className="text-white/60">
+              <div className="text-slate-600">
                 Contenido de {menuItems.find(item => item.id === activeItem)?.title}
               </div>
             </motion.div>
