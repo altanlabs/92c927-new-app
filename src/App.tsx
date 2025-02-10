@@ -12,7 +12,7 @@ const App = () => {
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <Theme appearance={theme === "system" ? "light" : theme}>
-        <div className={theme}>
+        <div className={`${theme} min-h-screen bg-background`}>
           <RouterProvider router={router} />
         </div>
       </Theme>
