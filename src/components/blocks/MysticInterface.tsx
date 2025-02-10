@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import type { FC } from 'react';
+import { useState } from 'react';
 import { Card } from "../ui/card";
 import { cn } from "../../lib/utils";
 
