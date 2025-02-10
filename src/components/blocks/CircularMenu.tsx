@@ -4,94 +4,76 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface MenuItem {
   id: string;
   title: string;
-  size: 'large' | 'medium' | 'small';
-  connections: string[];
   radius: number;
   angleOffset: number;
+  connections: string[];
 }
 
 const menuItems: MenuItem[] = [
   {
     id: 'bienestar',
     title: 'Bienestar',
-    size: 'large',
-    connections: ['deporte', 'crecimiento', 'finanzas'],
-    radius: 200,
-    angleOffset: 0
+    radius: 220,
+    angleOffset: 0,
+    connections: ['deporte', 'crecimiento', 'finanzas']
   },
   {
     id: 'deporte',
     title: 'Deporte',
-    size: 'medium',
-    connections: ['bienestar', 'crecimiento', 'educacion'],
-    radius: 280,
-    angleOffset: 0.5
+    radius: 220,
+    angleOffset: 0.8,
+    connections: ['bienestar', 'crecimiento', 'educacion']
   },
   {
     id: 'finanzas',
     title: 'Finanzas',
-    size: 'large',
-    connections: ['educacion', 'datos', 'bienestar'],
-    radius: 200,
-    angleOffset: 2
+    radius: 220,
+    angleOffset: 1.6,
+    connections: ['educacion', 'datos', 'bienestar']
   },
   {
     id: 'educacion',
     title: 'Educación Financiera',
-    size: 'medium',
-    connections: ['finanzas', 'deporte', 'recomendaciones'],
-    radius: 280,
-    angleOffset: 2.5
+    radius: 220,
+    angleOffset: 2.4,
+    connections: ['finanzas', 'deporte', 'recomendaciones']
   },
   {
     id: 'crecimiento',
     title: 'Crecimiento Personal',
-    size: 'large',
-    connections: ['bienestar', 'deporte', 'recomendaciones'],
-    radius: 200,
-    angleOffset: 4
+    radius: 220,
+    angleOffset: 3.2,
+    connections: ['bienestar', 'deporte', 'recomendaciones']
   },
   {
     id: 'datos',
     title: 'Venta de Datos',
-    size: 'small',
-    connections: ['finanzas', 'suscripciones'],
-    radius: 320,
-    angleOffset: 3
+    radius: 220,
+    angleOffset: 4.0,
+    connections: ['finanzas', 'suscripciones']
   },
   {
     id: 'recomendaciones',
     title: 'Recomendaciones',
-    size: 'medium',
-    connections: ['crecimiento', 'educacion', 'expansion'],
-    radius: 280,
-    angleOffset: 4.5
+    radius: 220,
+    angleOffset: 4.8,
+    connections: ['crecimiento', 'educacion', 'expansion']
   },
   {
     id: 'suscripciones',
     title: 'Suscripciones',
-    size: 'small',
-    connections: ['datos', 'expansion'],
-    radius: 320,
-    angleOffset: 5
+    radius: 220,
+    angleOffset: 5.6,
+    connections: ['datos', 'expansion']
   },
   {
     id: 'expansion',
     title: 'Expansión',
-    size: 'small',
-    connections: ['recomendaciones', 'suscripciones'],
-    radius: 320,
-    angleOffset: 5.5
+    radius: 220,
+    angleOffset: 6.4,
+    connections: ['recomendaciones', 'suscripciones']
   }
 ];
-
-const getCircleSize = (size: MenuItem['size']) => {
-  switch (size) {
-    case 'large': return 'w-32 h-32';
-    case 'medium': return 'w-24 h-24';
-    case 'small': return 'w-20 h-20';
-  }
-};
 
 export const CircularMenu = () => {
   const [activeItem, setActiveItem] = useState<string | null>(null);
@@ -103,7 +85,7 @@ export const CircularMenu = () => {
       const newPositions: Record<string, { x: number; y: number }> = {};
       
       menuItems.forEach((item) => {
-        const angle = item.angleOffset * Math.PI;
+        const angle = item.angleOffset * Math.PI / 3.6;
         newPositions[item.id] = {
           x: Math.cos(angle) * item.radius,
           y: Math.sin(angle) * item.radius
@@ -125,11 +107,9 @@ export const CircularMenu = () => {
         const targetPos = positions[targetId];
         if (!sourcePos || !targetPos) return null;
 
-        // Calcular el punto medio para la curva
         const midX = (sourcePos.x + targetPos.x) / 2;
         const midY = (sourcePos.y + targetPos.y) / 2;
-        // Añadir un desplazamiento para crear una curva
-        const curveOffset = 30;
+        const curveOffset = 20;
 
         return (
           <motion.path
@@ -159,6 +139,28 @@ export const CircularMenu = () => {
 
       {/* Contenedor del diagrama cabalístico */}
       <div className="relative w-[800px] h-[800px]">
+        {/* Círculo exterior */}
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5 }}
+          className="absolute left-1/2 top-1/2 w-[650px] h-[650px] -translate-x-1/2 -translate-y-1/2
+                     rounded-full border border-primary/20 backdrop-blur-sm"
+          style={{
+            background: 'linear-gradient(180deg, rgba(var(--primary), 0.03) 0%, rgba(var(--primary), 0.01) 100%)',
+            boxShadow: '0 0 40px rgba(var(--primary), 0.1) inset'
+          }}
+        />
+
+        {/* Círculo exterior decorativo */}
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5, delay: 0.2 }}
+          className="absolute left-1/2 top-1/2 w-[670px] h-[670px] -translate-x-1/2 -translate-y-1/2
+                     rounded-full border border-primary/10"
+        />
+
         {/* Conexiones SVG */}
         <svg className="absolute inset-0 w-full h-full" style={{ transform: 'translate(50%, 50%)' }}>
           <g className="opacity-20">{renderConnections()}</g>
@@ -185,8 +187,8 @@ export const CircularMenu = () => {
         {menuItems.map((item) => (
           <motion.div
             key={item.id}
-            className={`absolute left-1/2 top-1/2 ${getCircleSize(item.size)} -translate-x-1/2 -translate-y-1/2
-                       rounded-full flex items-center justify-center cursor-pointer z-40`}
+            className="absolute left-1/2 top-1/2 w-28 h-28 -translate-x-1/2 -translate-y-1/2
+                       rounded-full flex items-center justify-center cursor-pointer z-40"
             initial={{ scale: 0, x: positions[item.id]?.x ?? 0, y: positions[item.id]?.y ?? 0 }}
             animate={{
               scale: 1,
@@ -197,17 +199,14 @@ export const CircularMenu = () => {
             onClick={() => setActiveItem(item.id)}
           >
             <div className="w-full h-full relative group">
-              {/* Círculo de fondo con efecto de cristal */}
               <div className="absolute inset-0 rounded-full bg-black/30 backdrop-blur-sm 
                             border border-white/10 group-hover:border-primary/50 
                             transition-colors duration-300" />
               
-              {/* Brillo interior */}
               <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-20
                             bg-gradient-to-r from-primary to-primary-foreground
                             transition-opacity duration-300" />
               
-              {/* Contenido del círculo */}
               <div className="relative h-full flex items-center justify-center p-2">
                 <span className="text-sm font-medium text-center text-white/90 group-hover:text-white
                                transition-colors duration-300">
