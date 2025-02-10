@@ -7,75 +7,86 @@ interface MenuItem {
   radius: number;
   angleOffset: number;
   connections: string[];
+  group: 'personal' | 'financial' | 'services';
 }
 
 const menuItems: MenuItem[] = [
-  // Grupo Superior - Desarrollo Personal
+  // Grupo Personal (Superior)
   {
     id: 'bienestar',
     title: 'Bienestar',
     radius: 220,
-    angleOffset: 0, // Arriba
-    connections: ['deporte', 'crecimiento', 'finanzas']
+    angleOffset: 0.2, // Arriba-izquierda
+    connections: ['deporte', 'crecimiento'],
+    group: 'personal'
   },
   {
     id: 'deporte',
     title: 'Deporte',
     radius: 220,
-    angleOffset: 0.4, // Arriba-derecha
-    connections: ['bienestar', 'crecimiento', 'educacion']
+    angleOffset: 1, // Arriba-centro
+    connections: ['bienestar', 'crecimiento'],
+    group: 'personal'
   },
   {
     id: 'crecimiento',
     title: 'Crecimiento Personal',
     radius: 220,
-    angleOffset: 0.8, // Derecha-arriba
-    connections: ['bienestar', 'deporte', 'recomendaciones']
+    angleOffset: 1.8, // Arriba-derecha
+    connections: ['bienestar', 'deporte', 'recomendaciones'],
+    group: 'personal'
   },
-  // Grupo Derecho - Finanzas
+
+  // Grupo Financiero (Derecha)
   {
     id: 'finanzas',
     title: 'Finanzas',
     radius: 220,
-    angleOffset: 2.0, // Derecha
-    connections: ['educacion', 'datos', 'bienestar']
+    angleOffset: 2.6, // Derecha-superior
+    connections: ['educacion', 'datos'],
+    group: 'financial'
   },
   {
     id: 'educacion',
     title: 'Educación Financiera',
     radius: 220,
-    angleOffset: 2.4, // Derecha-abajo
-    connections: ['finanzas', 'deporte', 'recomendaciones']
+    angleOffset: 3.4, // Derecha-inferior
+    connections: ['finanzas', 'recomendaciones'],
+    group: 'financial'
   },
-  // Grupo Inferior - Comercial
+
+  // Grupo Servicios (Inferior)
   {
     id: 'datos',
     title: 'Venta de Datos',
     radius: 220,
-    angleOffset: 3.6, // Abajo
-    connections: ['finanzas', 'suscripciones']
+    angleOffset: 4.2, // Abajo-derecha
+    connections: ['finanzas', 'suscripciones'],
+    group: 'services'
   },
   {
     id: 'suscripciones',
     title: 'Suscripciones',
     radius: 220,
-    angleOffset: 4.0, // Abajo-izquierda
-    connections: ['datos', 'expansion']
+    angleOffset: 5, // Abajo-centro
+    connections: ['datos', 'expansion'],
+    group: 'services'
   },
-  // Grupo Izquierdo - Crecimiento
   {
     id: 'recomendaciones',
     title: 'Recomendaciones',
     radius: 220,
-    angleOffset: 5.2, // Izquierda
-    connections: ['crecimiento', 'educacion', 'expansion']
+    angleOffset: 5.8, // Izquierda-inferior
+    connections: ['crecimiento', 'educacion'],
+    group: 'services'
   },
   {
     id: 'expansion',
     title: 'Expansión',
     radius: 220,
-    angleOffset: 5.6, // Izquierda-arriba
-    connections: ['recomendaciones', 'suscripciones']
+    angleOffset: 6.6, // Izquierda-superior
+    connections: ['recomendaciones', 'suscripciones'],
+    group: 'services'
   }
 ];
 
@@ -89,7 +100,7 @@ export const CircularMenu = () => {
       const newPositions: Record<string, { x: number; y: number }> = {};
       
       menuItems.forEach((item) => {
-        const angle = item.angleOffset * Math.PI / 3;
+        const angle = item.angleOffset * Math.PI / 3.6;
         newPositions[item.id] = {
           x: Math.cos(angle) * item.radius,
           y: Math.sin(angle) * item.radius
@@ -103,6 +114,19 @@ export const CircularMenu = () => {
     window.addEventListener('resize', updatePositions);
     return () => window.removeEventListener('resize', updatePositions);
   }, []);
+
+  const getGroupColor = (group: MenuItem['group']) => {
+    switch (group) {
+      case 'personal':
+        return 'from-blue-200 to-purple-200';
+      case 'financial':
+        return 'from-green-200 to-emerald-200';
+      case 'services':
+        return 'from-orange-200 to-amber-200';
+      default:
+        return 'from-blue-200 to-blue-300';
+    }
+  };
 
   const renderConnections = () => {
     return menuItems.map((item) => (
@@ -204,9 +228,9 @@ export const CircularMenu = () => {
                             border border-blue-200/20 group-hover:border-blue-300/50 
                             transition-colors duration-300" />
               
-              <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-20
-                            bg-gradient-to-r from-blue-200 to-blue-300
-                            transition-opacity duration-300" />
+              <div className={`absolute inset-0 rounded-full opacity-0 group-hover:opacity-20
+                            bg-gradient-to-r ${getGroupColor(item.group)}
+                            transition-opacity duration-300`} />
               
               <div className="relative h-full flex items-center justify-center p-2">
                 <span className="text-sm font-medium text-center text-slate-600 group-hover:text-slate-800
