@@ -2,6 +2,9 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { Card } from "../ui/card";
 import { cn } from "../../lib/utils";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Button } from "../ui/button";
 
 interface CircleProps {
   title: string;
@@ -12,20 +15,32 @@ interface CircleProps {
 }
 
 const Circle: FC<CircleProps> = ({ title, position, onClick, isActive }) => (
-  <button
-    onClick={onClick}
-    className={cn(
-      "absolute w-24 h-24 rounded-full flex items-center justify-center",
-      "transition-all duration-500 cursor-pointer",
-      "bg-black/20 backdrop-blur-sm border border-white/10",
-      "hover:scale-110 hover:bg-black/40 hover:border-white/20",
-      "text-sm font-medium text-center p-2",
-      isActive && "ring-2 ring-primary ring-offset-2 ring-offset-background",
-      position
-    )}
-  >
-    {title}
-  </button>
+  <Sheet>
+    <SheetTrigger asChild>
+      <button
+        onClick={onClick}
+        className={cn(
+          "absolute w-24 h-24 rounded-full flex items-center justify-center",
+          "transition-all duration-500 cursor-pointer",
+          "bg-black/20 backdrop-blur-sm border border-white/10",
+          "hover:scale-110 hover:bg-black/40 hover:border-white/20",
+          "text-sm font-medium text-center p-2",
+          isActive && "ring-2 ring-primary ring-offset-2 ring-offset-background",
+          position
+        )}
+      >
+        {title}
+      </button>
+    </SheetTrigger>
+    <SheetContent>
+      <SheetHeader>
+        <SheetTitle>{title}</SheetTitle>
+      </SheetHeader>
+      <div className="mt-4">
+        <p className="text-muted-foreground">Contenido relacionado con {title}</p>
+      </div>
+    </SheetContent>
+  </Sheet>
 );
 
 export const MysticInterface = () => {
@@ -70,14 +85,39 @@ export const MysticInterface = () => {
       </svg>
 
       {/* Central chat circle */}
-      <Card className="relative z-10 w-96 h-96 rounded-full flex items-center justify-center bg-black/30 backdrop-blur-xl border-white/10">
-        <div className="text-center p-8">
-          <h2 className="text-xl font-semibold mb-4">SnipIT</h2>
-          <p className="text-sm text-muted-foreground">
-            Tu asistente personal inteligente
-          </p>
-        </div>
-      </Card>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Card className="relative z-10 w-96 h-96 rounded-full flex items-center justify-center bg-black/30 backdrop-blur-xl border-white/10 cursor-pointer hover:scale-105 transition-transform">
+            <div className="text-center p-8">
+              <h2 className="text-xl font-semibold mb-4">SnipIT</h2>
+              <p className="text-sm text-muted-foreground">
+                Tu asistente personal inteligente
+              </p>
+            </div>
+          </Card>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Chat con SnipIT</DialogTitle>
+          </DialogHeader>
+          <div className="h-[400px] overflow-y-auto p-4 border rounded-lg">
+            {/* Aquí irá el contenido del chat */}
+            <div className="space-y-4">
+              <div className="bg-muted p-3 rounded-lg">
+                ¡Hola! Soy SnipIT, tu asistente personal. ¿En qué puedo ayudarte hoy?
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 mt-4">
+            <input
+              type="text"
+              placeholder="Escribe tu mensaje..."
+              className="flex-1 p-2 rounded-md border"
+            />
+            <Button>Enviar</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Surrounding circles */}
       {circles.map((circle, index) => (
